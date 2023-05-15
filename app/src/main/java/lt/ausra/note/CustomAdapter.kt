@@ -12,11 +12,10 @@ class CustomAdapter(context: Context) : BaseAdapter() {
     private val inflater = LayoutInflater.from(context)
     private val list = mutableListOf<Note>()
 
-    override fun getCount() = list.size
-
-    override fun getItem(position: Int): Any = list[position]
-
-    override fun getItemId(position: Int) = position.toLong()
+    fun add(vararg note: Note) {
+        list.addAll(note)
+        notifyDataSetChanged()
+    }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = convertView ?: inflater.inflate(R.layout.note, parent, false)
@@ -27,4 +26,10 @@ class CustomAdapter(context: Context) : BaseAdapter() {
 
         return view
     }
+
+    override fun getItem(position: Int): Any = list[position]
+
+    override fun getItemId(position: Int) = position.toLong()
+
+    override fun getCount() = list.size
 }

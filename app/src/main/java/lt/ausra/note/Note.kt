@@ -8,5 +8,4 @@ data class Note(
     var details: String,
     private val creationDate: LocalDateTime = LocalDateTime.now(),
     private var updateDate: LocalDateTime = LocalDateTime.now()
-) {
-}
+)
