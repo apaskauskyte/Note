@@ -36,11 +36,16 @@ class NotesActivity : AppCompatActivity() {
         adapter.add(
             Note(1, "Shopping list", "bananas, bread, milk")
         )
+        adapter.add(
+            Note(2, "Movies to watch", "Blade, Casablanca")
+        )
     }
 
     private fun openNoteDetails() {
         openNoteDetailsButton.setOnClickListener {
-            startActivityForResult.launch(Intent(this, NoteDetailsActivity::class.java))
+            startActivityForNewNoteResult.launch(
+                Intent(this, NoteDetailsActivity::class.java)
+            )
         }
     }
 
@@ -52,17 +57,18 @@ class NotesActivity : AppCompatActivity() {
             noteIntent.putExtra(NOTE_ID, note.id)
             noteIntent.putExtra(NOTE_NAME, note.name)
             noteIntent.putExtra(NOTE_DETAILS, note.details)
-            startActivity(noteIntent)
+            noteIntent.putExtra(NOTE_POSITION, position)
+            startActivityForExistingNoteResult.launch(noteIntent)
         }
     }
 
-    private val startActivityForResult =
+    private val startActivityForNewNoteResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
                 Activity.RESULT_OK -> {
                     val note = Note(
                         id = result.data?.getIntExtra(
-                            NoteDetailsActivity.NOTE_DETAILS_ID, 0
+                            NoteDetailsActivity.NOTE_DETAILS_ID, -1
                         ) ?: 0,
                         name = result.data?.getStringExtra(
                             NoteDetailsActivity.NOTE_DETAILS_NAME
@@ -71,8 +77,30 @@ class NotesActivity : AppCompatActivity() {
                             NoteDetailsActivity.NOTE_DETAILS_DETAILS
                         ) ?: "",
                     )
-
                     adapter.add(note)
+                }
+            }
+        }
+
+    private val startActivityForExistingNoteResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                Activity.RESULT_OK -> {
+                    val position = result.data?.getIntExtra(
+                        NOTE_POSITION, -1
+                    ) ?: -1
+
+                    val note = adapter.getItem(position) as Note
+
+                    val name = result.data?.getStringExtra(
+                        NoteDetailsActivity.NOTE_DETAILS_NAME
+                    ) ?: ""
+                    val details = result.data?.getStringExtra(
+                        NoteDetailsActivity.NOTE_DETAILS_DETAILS
+                    ) ?: ""
+                    note.setNewName(name)
+                    note.setNewDetails(details)
+                    adapter.notifyDataSetChanged()
                 }
             }
         }
@@ -81,5 +109,6 @@ class NotesActivity : AppCompatActivity() {
         const val NOTE_ID = "Id"
         const val NOTE_NAME = "name"
         const val NOTE_DETAILS = "details"
+        const val NOTE_POSITION = "position"
     }
 }

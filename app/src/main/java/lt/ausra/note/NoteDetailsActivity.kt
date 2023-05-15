@@ -51,7 +51,7 @@ class NoteDetailsActivity : AppCompatActivity() {
 
     private fun getIntentExtra() {
         idEditText.setText(
-            intent.getIntExtra(NotesActivity.NOTE_ID, -1).toString()
+            intent.getIntExtra(NotesActivity.NOTE_ID, 0).toString()
         )
         nameEditText.setText(
             intent.getStringExtra(NotesActivity.NOTE_NAME)
@@ -68,6 +68,7 @@ class NoteDetailsActivity : AppCompatActivity() {
             finishIntent.putExtra(NOTE_DETAILS_ID, (idEditText.text.toString()).toInt())
             finishIntent.putExtra(NOTE_DETAILS_NAME, nameEditText.text.toString())
             finishIntent.putExtra(NOTE_DETAILS_DETAILS, detailsEditText.text.toString())
+            finishIntent.putExtra(NotesActivity.NOTE_POSITION, intent.getIntExtra(NotesActivity.NOTE_POSITION, -1))
             setResult(RESULT_OK, finishIntent)
             finish()
         }
@@ -75,8 +76,7 @@ class NoteDetailsActivity : AppCompatActivity() {
 
     private fun setClickListenerOfCloseButton() {
         closeButton.setOnClickListener {
-            val close = Intent(this, NotesActivity::class.java)
-            startActivity(close)
+            finish()
         }
     }
 

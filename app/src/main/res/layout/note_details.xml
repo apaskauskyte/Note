@@ -22,7 +22,8 @@
             android:layout_marginBottom="32dp"
             android:gravity="center"
             android:text="id"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:inputType="number"/>
 
         <EditText
             android:id="@+id/nameEditText"
@@ -31,7 +32,7 @@
             android:layout_marginBottom="32dp"
             android:gravity="center"
             android:text="name"
-            android:textSize="20sp" />
+            android:textSize="20sp"/>
 
         <EditText
             android:id="@+id/detailsEditText"
