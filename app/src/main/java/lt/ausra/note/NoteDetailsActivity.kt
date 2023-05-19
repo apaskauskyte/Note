@@ -5,24 +5,17 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import lt.ausra.note.databinding.NoteDetailsBinding
 
 class NoteDetailsActivity : AppCompatActivity() {
 
-    lateinit var idEditText: EditText
-    lateinit var nameEditText: EditText
-    lateinit var detailsEditText: EditText
-    lateinit var saveButton: Button
-    lateinit var closeButton: Button
+    private lateinit var binding: NoteDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.note_details)
 
-        idEditText = findViewById(R.id.idEditText)
-        nameEditText = findViewById(R.id.nameEditText)
-        detailsEditText = findViewById(R.id.detailsEditText)
-        saveButton = findViewById(R.id.saveButton)
-        closeButton = findViewById(R.id.closeButton)
+        binding = NoteDetailsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         getIntentExtra()
         setClickListenerOfSaveButton()
@@ -32,9 +25,9 @@ class NoteDetailsActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.run {
-            putString(NOTE_DETAILS_ID, idEditText.text.toString())
-            putString(NOTE_DETAILS_NAME, nameEditText.text.toString())
-            putString(NOTE_DETAILS_DETAILS, detailsEditText.text.toString())
+            putString(NOTE_DETAILS_ID, binding.idEditText.text.toString())
+            putString(NOTE_DETAILS_NAME, binding.nameEditText.text.toString())
+            putString(NOTE_DETAILS_DETAILS, binding.detailsEditText.text.toString())
         }
         super.onSaveInstanceState(outState)
     }
@@ -43,31 +36,31 @@ class NoteDetailsActivity : AppCompatActivity() {
         super.onRestoreInstanceState(savedInstanceState)
 
         with(savedInstanceState) {
-            idEditText.setText(getString(NOTE_DETAILS_ID))
-            nameEditText.setText(getString(NOTE_DETAILS_NAME))
-            detailsEditText.setText(getString(NOTE_DETAILS_DETAILS))
+            binding.idEditText.setText(getString(NOTE_DETAILS_ID))
+            binding.nameEditText.setText(getString(NOTE_DETAILS_NAME))
+            binding.detailsEditText.setText(getString(NOTE_DETAILS_DETAILS))
         }
     }
 
     private fun getIntentExtra() {
-        idEditText.setText(
+        binding.idEditText.setText(
             intent.getIntExtra(NotesActivity.NOTE_ID, 0).toString()
         )
-        nameEditText.setText(
+        binding.nameEditText.setText(
             intent.getStringExtra(NotesActivity.NOTE_NAME)
         )
-        detailsEditText.setText(
+        binding.detailsEditText.setText(
             intent.getStringExtra(NotesActivity.NOTE_DETAILS)
         )
     }
 
     private fun setClickListenerOfSaveButton() {
-        saveButton.setOnClickListener {
+        binding.saveButton.setOnClickListener {
             val finishIntent = Intent()
 
-            finishIntent.putExtra(NOTE_DETAILS_ID, (idEditText.text.toString()).toInt())
-            finishIntent.putExtra(NOTE_DETAILS_NAME, nameEditText.text.toString())
-            finishIntent.putExtra(NOTE_DETAILS_DETAILS, detailsEditText.text.toString())
+            finishIntent.putExtra(NOTE_DETAILS_ID, (binding.idEditText.text.toString()).toInt())
+            finishIntent.putExtra(NOTE_DETAILS_NAME, binding.nameEditText.text.toString())
+            finishIntent.putExtra(NOTE_DETAILS_DETAILS, binding.detailsEditText.text.toString())
             finishIntent.putExtra(NotesActivity.NOTE_POSITION, intent.getIntExtra(NotesActivity.NOTE_POSITION, -1))
             setResult(RESULT_OK, finishIntent)
             finish()
@@ -75,7 +68,7 @@ class NoteDetailsActivity : AppCompatActivity() {
     }
 
     private fun setClickListenerOfCloseButton() {
-        closeButton.setOnClickListener {
+        binding.closeButton.setOnClickListener {
             finish()
         }
     }

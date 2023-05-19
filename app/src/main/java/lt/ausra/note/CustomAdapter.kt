@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.TextView
+import lt.ausra.note.databinding.NoteBinding
 
 class CustomAdapter(context: Context) : BaseAdapter() {
 
@@ -18,11 +18,21 @@ class CustomAdapter(context: Context) : BaseAdapter() {
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view = convertView ?: inflater.inflate(R.layout.note, parent, false)
+        var view = convertView
 
-        view.findViewById<TextView>(R.id.idTextView).text = list[position].id.toString()
-        view.findViewById<TextView>(R.id.nameTextView).text = list[position].name
-        view.findViewById<TextView>(R.id.detailsTextView).text = list[position].details
+        val binding: NoteBinding
+
+        if (view == null) {
+            binding = NoteBinding.inflate(inflater, parent, false)
+            view = binding.root
+            view.tag = binding
+        } else {
+            binding = view.tag as NoteBinding
+        }
+
+        binding.idTextView.text = list[position].id.toString()
+        binding.nameTextView.text = list[position].name
+        binding.detailsTextView.text = list[position].details
 
         return view
     }

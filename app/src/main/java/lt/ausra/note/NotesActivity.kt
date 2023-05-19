@@ -7,17 +7,18 @@ import android.os.Bundle
 import android.widget.ListView
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import lt.ausra.note.databinding.ActivityMainBinding
 
 class NotesActivity : AppCompatActivity() {
 
     lateinit var adapter: CustomAdapter
-    lateinit var noteListView: ListView
-    lateinit var openNoteDetailsButton: FloatingActionButton
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        noteListView = findViewById(R.id.noteListView)
-        openNoteDetailsButton = findViewById(R.id.openNoteDetailsButton)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val notes = mutableListOf<Note>()
 
@@ -29,7 +30,7 @@ class NotesActivity : AppCompatActivity() {
 
     private fun setUpListView() {
         adapter = CustomAdapter(this)
-        noteListView.adapter = adapter
+        binding.noteListView.adapter = adapter
     }
 
     private fun updateAdapter(notes: MutableList<Note>) {
@@ -42,7 +43,7 @@ class NotesActivity : AppCompatActivity() {
     }
 
     private fun openNoteDetails() {
-        openNoteDetailsButton.setOnClickListener {
+        binding.openNoteDetailsButton.setOnClickListener {
             startActivityForNewNoteResult.launch(
                 Intent(this, NoteDetailsActivity::class.java)
             )
@@ -50,7 +51,7 @@ class NotesActivity : AppCompatActivity() {
     }
 
     private fun setClickOpenNoteDetails() {
-        noteListView.setOnItemClickListener { adapterView, view, position, l ->
+        binding.noteListView.setOnItemClickListener { adapterView, view, position, l ->
             val note: Note = adapterView.getItemAtPosition(position) as Note
 
             val noteIntent = Intent(this, NoteDetailsActivity::class.java)
