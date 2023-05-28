@@ -1,65 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".NoteDetailsActivity">
 
-    <LinearLayout
+    <data>
+
+        <variable
+            name="note"
+            type="lt.ausra.note.Note" />
+
+        <variable
+            name="noteDetailsActivity"
+            type="lt.ausra.note.NoteDetailsActivity" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="96dp"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/idEditText"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginBottom="96dp"
             android:gravity="center"
-            android:text="id"
-            android:textSize="20sp"
-            android:inputType="number"/>
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/nameEditText"
-            android:layout_width="match_parent"
+            <EditText
+                android:id="@+id/idEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:gravity="center"
+                android:hint="id"
+                android:inputType="number"
+                android:saveEnabled="false"
+                android:text="@={`` + note.id}"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/nameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:gravity="center"
+                android:hint="name"
+                android:saveEnabled="false"
+                android:text="@={note.name}"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/detailsEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:gravity="center"
+                android:hint="details"
+                android:saveEnabled="false"
+                android:text="@={note.details}"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
             android:layout_marginBottom="32dp"
-            android:gravity="center"
-            android:text="name"
-            android:textSize="20sp"/>
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/detailsEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:gravity="center"
-            android:text="details"
-            android:textSize="20sp" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/closeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:onClick="@{noteDetailsActivity::onClickOfCloseButton}"
+                android:text="Close" />
 
-    <Button
-        android:id="@+id/closeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="96dp"
-        android:layout_marginBottom="32dp"
-        android:text="Close" />
-
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="224dp"
-        android:layout_marginBottom="32dp"
-        android:text="Save" />
-
-</RelativeLayout>
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{noteDetailsActivity::onClickOfSaveButton}"
+                android:text="Save" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

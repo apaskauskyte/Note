@@ -2,9 +2,11 @@ package lt.ausra.note
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import lt.ausra.note.databinding.NoteDetailsBinding
 
 class NoteDetailsActivity : AppCompatActivity() {
@@ -14,20 +16,21 @@ class NoteDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = NoteDetailsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = DataBindingUtil.setContentView(this, R.layout.note_details)
+        binding.note = getIntentExtra()
+        binding.noteDetailsActivity = this
 
         getIntentExtra()
-        setClickListenerOfSaveButton()
-        setClickListenerOfCloseButton()
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.run {
-            putString(NOTE_DETAILS_ID, binding.idEditText.text.toString())
-            putString(NOTE_DETAILS_NAME, binding.nameEditText.text.toString())
-            putString(NOTE_DETAILS_DETAILS, binding.detailsEditText.text.toString())
+            val note = binding.note
+            if(note != null) {
+                putInt(NOTE_DETAILS_ID, note.id)
+                putString(NOTE_DETAILS_NAME, note.name)
+                putString(NOTE_DETAILS_DETAILS, note.details)
+            }
         }
         super.onSaveInstanceState(outState)
     }
@@ -36,41 +39,38 @@ class NoteDetailsActivity : AppCompatActivity() {
         super.onRestoreInstanceState(savedInstanceState)
 
         with(savedInstanceState) {
-            binding.idEditText.setText(getString(NOTE_DETAILS_ID))
-            binding.nameEditText.setText(getString(NOTE_DETAILS_NAME))
-            binding.detailsEditText.setText(getString(NOTE_DETAILS_DETAILS))
+            binding.note = Note(
+                getInt(NOTE_DETAILS_ID),
+                getString(NOTE_DETAILS_NAME) ?: "",
+                getString(NOTE_DETAILS_DETAILS) ?: ""
+            )
         }
     }
 
-    private fun getIntentExtra() {
-        binding.idEditText.setText(
-            intent.getIntExtra(NotesActivity.NOTE_ID, 0).toString()
-        )
-        binding.nameEditText.setText(
-            intent.getStringExtra(NotesActivity.NOTE_NAME)
-        )
-        binding.detailsEditText.setText(
-            intent.getStringExtra(NotesActivity.NOTE_DETAILS)
+    private fun getIntentExtra(): Note {
+        return Note(
+            intent.getIntExtra(NotesActivity.NOTE_ID, 0),
+            intent.getStringExtra(NotesActivity.NOTE_NAME) ?: "",
+            intent.getStringExtra(NotesActivity.NOTE_DETAILS) ?: ""
         )
     }
 
-    private fun setClickListenerOfSaveButton() {
-        binding.saveButton.setOnClickListener {
-            val finishIntent = Intent()
+    fun onClickOfSaveButton(view: View) {
+        val finishIntent = Intent()
 
-            finishIntent.putExtra(NOTE_DETAILS_ID, (binding.idEditText.text.toString()).toInt())
-            finishIntent.putExtra(NOTE_DETAILS_NAME, binding.nameEditText.text.toString())
-            finishIntent.putExtra(NOTE_DETAILS_DETAILS, binding.detailsEditText.text.toString())
-            finishIntent.putExtra(NotesActivity.NOTE_POSITION, intent.getIntExtra(NotesActivity.NOTE_POSITION, -1))
-            setResult(RESULT_OK, finishIntent)
-            finish()
-        }
+        finishIntent.putExtra(NOTE_DETAILS_ID, (binding.idEditText.text.toString()).toInt())
+        finishIntent.putExtra(NOTE_DETAILS_NAME, binding.nameEditText.text.toString())
+        finishIntent.putExtra(NOTE_DETAILS_DETAILS, binding.detailsEditText.text.toString())
+        finishIntent.putExtra(
+            NotesActivity.NOTE_POSITION,
+            intent.getIntExtra(NotesActivity.NOTE_POSITION, -1)
+        )
+        setResult(RESULT_OK, finishIntent)
+        finish()
     }
 
-    private fun setClickListenerOfCloseButton() {
-        binding.closeButton.setOnClickListener {
-            finish()
-        }
+    fun onClickOfCloseButton(view: View) {
+        finish()
     }
 
     companion object {

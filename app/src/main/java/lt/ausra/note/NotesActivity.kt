@@ -4,28 +4,34 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ListView
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import lt.ausra.note.databinding.ActivityMainBinding
+import androidx.databinding.DataBindingUtil
+import lt.ausra.note.databinding.NotesActivityBinding
 
 class NotesActivity : AppCompatActivity() {
 
     lateinit var adapter: CustomAdapter
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: NotesActivityBinding
+    val notes = mutableListOf<Note>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = DataBindingUtil.setContentView(this, R.layout.notes_activity)
+        binding.notesActivity = this
 
-        val notes = mutableListOf<Note>()
+        generateNotes()
 
         setUpListView()
-        updateAdapter(notes)
-        openNoteDetails()
+        updateAdapter()
+
         setClickOpenNoteDetails()
+    }
+
+    private fun generateNotes() {
+        notes.add(Note(1, "Shopping list", "bananas, bread, milk"))
+        notes.add(Note(2, "Movies to watch", "Blade, Casablanca"))
     }
 
     private fun setUpListView() {
@@ -33,21 +39,14 @@ class NotesActivity : AppCompatActivity() {
         binding.noteListView.adapter = adapter
     }
 
-    private fun updateAdapter(notes: MutableList<Note>) {
-        adapter.add(
-            Note(1, "Shopping list", "bananas, bread, milk")
-        )
-        adapter.add(
-            Note(2, "Movies to watch", "Blade, Casablanca")
-        )
+    private fun updateAdapter() {
+        adapter.add(notes)
     }
 
-    private fun openNoteDetails() {
-        binding.openNoteDetailsButton.setOnClickListener {
+    fun openNewNoteDetails(view: View) {
             startActivityForNewNoteResult.launch(
                 Intent(this, NoteDetailsActivity::class.java)
             )
-        }
     }
 
     private fun setClickOpenNoteDetails() {
@@ -79,6 +78,7 @@ class NotesActivity : AppCompatActivity() {
                         ) ?: "",
                     )
                     adapter.add(note)
+                    notes.add(note)
                 }
             }
         }
