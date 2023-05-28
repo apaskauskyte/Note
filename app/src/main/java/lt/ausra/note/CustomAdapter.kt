@@ -12,8 +12,13 @@ class CustomAdapter(context: Context) : BaseAdapter() {
     private val inflater = LayoutInflater.from(context)
     private val list = mutableListOf<Note>()
 
-    fun add(vararg note: Note) {
-        list.addAll(note)
+    fun add(notes: List<Note>) {
+        list.addAll(notes)
+        notifyDataSetChanged()
+    }
+
+    fun add(note: Note) {
+        list.add(note)
         notifyDataSetChanged()
     }
 
@@ -30,9 +35,7 @@ class CustomAdapter(context: Context) : BaseAdapter() {
             binding = view.tag as NoteBinding
         }
 
-        binding.idTextView.text = list[position].id.toString()
-        binding.nameTextView.text = list[position].name
-        binding.detailsTextView.text = list[position].details
+        binding.note = list[position]
 
         return view
     }
