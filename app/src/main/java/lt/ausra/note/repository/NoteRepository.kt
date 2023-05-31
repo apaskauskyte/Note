@@ -34,8 +34,15 @@ class NoteRepository {
     private fun generateListOfNotes(): List<Note> {
         val list = mutableListOf<Note>()
 
-        list.add(Note(1, "Shopping list", "bananas, bread, milk"))
-        list.add(Note(2, "Movies to watch", "Blade, Casablanca"))
+        list.add(Note(
+            1, "Shopping list", "bananas, bread, milk"
+        ))
+        list.add(Note(
+            2, "Movies to watch", "Blade, Casablanca"
+        ))
+        list.add(Note(
+            3, "To do for Amsterdam trip", "Book hotel, pack, learn to ride a bike"
+        ))
 
         return list
     }
