@@ -6,11 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import lt.ausra.note.databinding.NoteBinding
+import lt.ausra.note.repository.Note
 
 class CustomAdapter(context: Context) : BaseAdapter() {
 
     private val inflater = LayoutInflater.from(context)
     private val list = mutableListOf<Note>()
+
+    fun set(notes: List<Note>) {
+        list.clear()
+        list.addAll(notes)
+        notifyDataSetChanged()
+    }
 
     fun add(notes: List<Note>) {
         list.addAll(notes)

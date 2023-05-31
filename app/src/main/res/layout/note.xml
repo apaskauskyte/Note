@@ -5,7 +5,7 @@
 
         <variable
             name="note"
-            type="lt.ausra.note.Note" />
+            type="lt.ausra.note.repository.Note" />
     </data>
 
     <LinearLayout
