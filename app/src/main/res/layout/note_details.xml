@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".NoteDetailsActivity">
+    tools:context=".noteDetailsActivity.NoteDetailsActivity">
 
     <data>
 
         <variable
             name="note"
-            type="lt.ausra.note.Note" />
+            type="lt.ausra.note.repository.Note" />
 
         <variable
             name="noteDetailsActivity"
-            type="lt.ausra.note.NoteDetailsActivity" />
+            type="lt.ausra.note.noteDetailsActivity.NoteDetailsActivity" />
     </data>
 
     <RelativeLayout
@@ -28,8 +28,8 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/idEditText"
+            <TextView
+                android:id="@+id/idText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
@@ -37,7 +37,7 @@
                 android:hint="id"
                 android:inputType="number"
                 android:saveEnabled="false"
-                android:text="@={`` + note.id}"
+                android:text="@{String.valueOf(note.id)}"
                 android:textSize="20sp" />
 
             <EditText

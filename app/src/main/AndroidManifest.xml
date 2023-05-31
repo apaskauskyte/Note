@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Note"
         tools:targetApi="31">
         <activity
-            android:name=".NotesActivity"
+            android:name=".notesActivity.NotesActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NoteDetailsActivity"
+            android:name=".noteDetailsActivity.NoteDetailsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

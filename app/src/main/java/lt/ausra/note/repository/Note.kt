@@ -1,4 +1,4 @@
-package lt.ausra.note
+package lt.ausra.note.repository
 
 import java.time.LocalDateTime
 
