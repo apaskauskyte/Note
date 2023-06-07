@@ -3,6 +3,8 @@ package lt.ausra.note.notesActivity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
@@ -34,7 +36,7 @@ class NotesActivity : AppCompatActivity() {
         )
 
         setUpListView()
-
+        setupSearchView()
         setClickOpenNoteDetails()
     }
 
@@ -54,6 +56,20 @@ class NotesActivity : AppCompatActivity() {
     private fun setUpListView() {
         adapter = CustomAdapter(this)
         binding.noteListView.adapter = adapter
+    }
+
+    private fun setupSearchView() {
+        binding.searchView.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                activityViewModel.filterNotesList(binding.searchView.text.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
     }
 
     private fun setClickOpenNoteDetails() {

@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="64dp"
             android:layout_marginRight="32dp"
             android:layout_marginBottom="32dp" />
 
@@ -33,10 +33,21 @@
             android:id="@+id/openNoteDetailsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_margin="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="323dp"
+            android:layout_marginBottom="32dp"
             android:onClick="@{notesActivity::openNewNoteDetails}"
             android:src="@drawable/baseline_edit_note_24" />
+        
+        <EditText
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter text to search" />
 
     </RelativeLayout>
 </layout>

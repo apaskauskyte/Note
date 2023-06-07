@@ -19,4 +19,18 @@ class NotesActivityViewModel : ViewModel() {
         }
         _notesLiveData.value = NoteRepository.instance.notes
     }
+
+    fun filterNotesList(enteredText: String) {
+        val filteredList = mutableListOf<Note>()
+        NoteRepository.instance.notes.forEach {
+            if (
+                it.id.toString().contains(enteredText, true) ||
+                it.name.contains(enteredText, true) ||
+                it.details.contains(enteredText, true)
+            ) {
+                filteredList.add(it)
+            }
+        }
+        _notesLiveData.value = filteredList
+    }
 }
